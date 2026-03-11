@@ -1,5 +1,11 @@
 package com.example.cia3.ui.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -16,10 +22,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.cia3.R
 
 /**
- * Top App Bar component that displays the app title "Task Manager"
- * with a settings/menu icon. Visible across all screens.
+ * Top App Bar component that displays the app icon and title "FocusBoard"
+ * with a settings/menu icon. Visible across all main screens.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,10 +43,21 @@ fun TaskTopAppBar(
 
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text = "FocusBoard",
-                style = MaterialTheme.typography.titleLarge
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.app_icon),
+                    contentDescription = "FocusBoard Logo",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "FocusBoard",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         },
         actions = {
             IconButton(onClick = { showMenu = !showMenu }) {

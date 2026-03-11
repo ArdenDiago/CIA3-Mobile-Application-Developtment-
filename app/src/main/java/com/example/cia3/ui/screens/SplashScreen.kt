@@ -65,7 +65,7 @@ fun SplashScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(androidx.compose.ui.graphics.Color.White),
         contentAlignment = Alignment.Center
     ) {
         Column(
