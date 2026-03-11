@@ -10,7 +10,9 @@ import androidx.navigation.navArgument
 import com.example.cia3.ui.screens.AddTaskScreen
 import com.example.cia3.ui.screens.EditTaskScreen
 import com.example.cia3.ui.screens.ManageTasksScreen
+import com.example.cia3.ui.screens.ProfileScreen
 import com.example.cia3.ui.screens.TaskListScreen
+import com.example.cia3.viewmodel.ProfileViewModel
 import com.example.cia3.viewmodel.TaskViewModel
 
 /**
@@ -21,6 +23,7 @@ import com.example.cia3.viewmodel.TaskViewModel
 fun TaskNavGraph(
     navController: NavHostController,
     taskViewModel: TaskViewModel,
+    profileViewModel: ProfileViewModel,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -62,6 +65,10 @@ fun TaskNavGraph(
                     navController.popBackStack()
                 }
             )
+        }
+
+        composable(Screen.Profile.route) {
+            ProfileScreen(profileViewModel = profileViewModel)
         }
     }
 }

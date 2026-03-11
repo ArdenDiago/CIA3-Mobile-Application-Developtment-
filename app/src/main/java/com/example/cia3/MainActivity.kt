@@ -24,6 +24,8 @@ import com.example.cia3.navigation.TaskNavGraph
 import com.example.cia3.ui.components.TaskBottomNavigationBar
 import com.example.cia3.ui.components.TaskTopAppBar
 import com.example.cia3.ui.theme.CIA3Theme
+import com.example.cia3.viewmodel.ProfileViewModel
+import com.example.cia3.viewmodel.ProfileViewModelFactory
 import com.example.cia3.viewmodel.TaskViewModel
 import com.example.cia3.viewmodel.TaskViewModelFactory
 
@@ -41,14 +43,23 @@ class MainActivity : ComponentActivity() {
                 val viewModel: TaskViewModel = viewModel(
                     factory = TaskViewModelFactory(application.repository)
                 )
-                TaskManagerApp(viewModel = viewModel)
+                val profileViewModel: ProfileViewModel = viewModel(
+                    factory = ProfileViewModelFactory(application.repository)
+                )
+                TaskManagerApp(
+                    viewModel = viewModel,
+                    profileViewModel = profileViewModel
+                )
             }
         }
     }
 }
 
 @Composable
-fun TaskManagerApp(viewModel: TaskViewModel) {
+fun TaskManagerApp(
+    viewModel: TaskViewModel,
+    profileViewModel: ProfileViewModel
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -56,7 +67,8 @@ fun TaskManagerApp(viewModel: TaskViewModel) {
     // Determine if FAB and bottom nav should be visible
     val showBottomBar = currentRoute in listOf(
         Screen.TaskList.route,
-        Screen.ManageTasks.route
+        Screen.ManageTasks.route,
+        Screen.Profile.route
     )
     val showFab = currentRoute == Screen.TaskList.route
 
@@ -104,6 +116,7 @@ fun TaskManagerApp(viewModel: TaskViewModel) {
         TaskNavGraph(
             navController = navController,
             taskViewModel = viewModel,
+            profileViewModel = profileViewModel,
             modifier = Modifier.padding(innerPadding)
         )
     }

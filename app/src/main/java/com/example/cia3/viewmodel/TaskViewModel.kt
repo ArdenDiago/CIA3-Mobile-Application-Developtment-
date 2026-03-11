@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * ViewModel for managing Task data in the MVVM architecture.
@@ -52,6 +55,24 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
 
     fun selectTask(task: Task?) {
         _selectedTask.value = task
+    }
+
+    fun markTaskCompleted(task: Task) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = dateFormat.format(Date())
+        viewModelScope.launch {
+            repository.updateTask(
+                task.copy(isCompleted = true, completedDate = today)
+            )
+        }
+    }
+
+    fun markTaskIncomplete(task: Task) {
+        viewModelScope.launch {
+            repository.updateTask(
+                task.copy(isCompleted = false, completedDate = null)
+            )
+        }
     }
 }
 

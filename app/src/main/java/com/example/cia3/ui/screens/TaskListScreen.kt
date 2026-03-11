@@ -92,7 +92,14 @@ fun TaskListScreen(
                     TaskCard(
                         task = task,
                         onEditClick = { onEditTask(task.taskId) },
-                        onDeleteClick = { viewModel.deleteTask(task) }
+                        onDeleteClick = { viewModel.deleteTask(task) },
+                        onCompleteToggle = {
+                            if (task.isCompleted) {
+                                viewModel.markTaskIncomplete(task)
+                            } else {
+                                viewModel.markTaskCompleted(task)
+                            }
+                        }
                     )
                 }
             }

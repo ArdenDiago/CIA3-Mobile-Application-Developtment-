@@ -5,16 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.cia3.data.dao.TaskDao
+import com.example.cia3.data.dao.UserProfileDao
 import com.example.cia3.data.model.Task
+import com.example.cia3.data.model.UserProfile
 
 /**
  * Room Database class for the Task Manager application.
  * Singleton pattern ensures only one database instance exists.
  */
-@Database(entities = [Task::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Task::class, UserProfile::class],
+    version = 2,
+    exportSchema = false
+)
 abstract class TaskDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
+    abstract fun userProfileDao(): UserProfileDao
 
     companion object {
         @Volatile
@@ -26,7 +33,9 @@ abstract class TaskDatabase : RoomDatabase() {
                     context.applicationContext,
                     TaskDatabase::class.java,
                     "task_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

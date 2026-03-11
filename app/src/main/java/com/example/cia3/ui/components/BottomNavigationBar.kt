@@ -2,9 +2,11 @@ package com.example.cia3.ui.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.automirrored.outlined.List
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -26,7 +28,7 @@ data class BottomNavItem(
 )
 
 /**
- * Bottom Navigation Bar with two tabs: Tasks and Manage.
+ * Bottom Navigation Bar with three tabs: Tasks, Manage, and Profile.
  */
 @Composable
 fun TaskBottomNavigationBar(
@@ -37,14 +39,20 @@ fun TaskBottomNavigationBar(
         BottomNavItem(
             label = "Tasks",
             route = Screen.TaskList.route,
-            selectedIcon = Icons.Filled.List,
-            unselectedIcon = Icons.Outlined.List
+            selectedIcon = Icons.AutoMirrored.Filled.List,
+            unselectedIcon = Icons.AutoMirrored.Outlined.List
         ),
         BottomNavItem(
             label = "Manage",
             route = Screen.ManageTasks.route,
             selectedIcon = Icons.Filled.Build,
             unselectedIcon = Icons.Outlined.Build
+        ),
+        BottomNavItem(
+            label = "Profile",
+            route = Screen.Profile.route,
+            selectedIcon = Icons.Filled.Person,
+            unselectedIcon = Icons.Outlined.Person
         )
     )
 
