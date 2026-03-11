@@ -23,14 +23,14 @@ import com.example.cia3.navigation.Screen
 import com.example.cia3.navigation.TaskNavGraph
 import com.example.cia3.ui.components.TaskBottomNavigationBar
 import com.example.cia3.ui.components.TaskTopAppBar
-import com.example.cia3.ui.theme.CIA3Theme
+import com.example.cia3.ui.theme.FocusBoardTheme
 import com.example.cia3.viewmodel.ProfileViewModel
 import com.example.cia3.viewmodel.ProfileViewModelFactory
 import com.example.cia3.viewmodel.TaskViewModel
 import com.example.cia3.viewmodel.TaskViewModelFactory
 
 /**
- * Main Activity - Entry point of the Task Manager application.
+ * Main Activity - Entry point of the FocusBoard application.
  * Sets up the full app scaffold with TopAppBar, BottomNavigation, FAB, and NavHost.
  */
 class MainActivity : ComponentActivity() {
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CIA3Theme {
+            FocusBoardTheme {
                 val application = application as TaskManagerApplication
                 val viewModel: TaskViewModel = viewModel(
                     factory = TaskViewModelFactory(application.repository)
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                 val profileViewModel: ProfileViewModel = viewModel(
                     factory = ProfileViewModelFactory(application.repository)
                 )
-                TaskManagerApp(
+                FocusBoardApp(
                     viewModel = viewModel,
                     profileViewModel = profileViewModel
                 )
@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TaskManagerApp(
+fun FocusBoardApp(
     viewModel: TaskViewModel,
     profileViewModel: ProfileViewModel
 ) {
@@ -64,8 +64,13 @@ fun TaskManagerApp(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    // Determine if FAB and bottom nav should be visible
-    val showBottomBar = currentRoute in listOf(
+    // Screens where scaffold chrome should be hidden
+    val isFullScreen = currentRoute in listOf(
+        Screen.Splash.route,
+        Screen.Login.route
+    )
+
+    val showBottomBar = !isFullScreen && currentRoute in listOf(
         Screen.TaskList.route,
         Screen.ManageTasks.route,
         Screen.Profile.route
@@ -75,9 +80,11 @@ fun TaskManagerApp(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TaskTopAppBar(
-                onDeleteAllTasks = { viewModel.deleteAllTasks() }
-            )
+            if (!isFullScreen) {
+                TaskTopAppBar(
+                    onDeleteAllTasks = { viewModel.deleteAllTasks() }
+                )
+            }
         },
         bottomBar = {
             if (showBottomBar) {

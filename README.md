@@ -1,6 +1,6 @@
-# Task Manager - CIA3 Mobile Application
+# FocusBoard - CIA3 Mobile Application
 
-A **Personal Task Manager** Android application built with **Kotlin** and **Jetpack Compose**, following the **MVVM (Model-View-ViewModel)** architecture pattern.
+A **Personal Task Manager & Habit Tracker** Android application built with **Kotlin** and **Jetpack Compose**, following the **MVVM (Model-View-ViewModel)** architecture pattern.
 
 ## 📱 Features
 

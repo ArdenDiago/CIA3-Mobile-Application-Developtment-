@@ -46,25 +46,16 @@ class ProfileViewModel(private val repository: TaskRepository) : ViewModel() {
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
-    init {
-        ensureProfileExists()
-    }
-
-    private fun ensureProfileExists() {
+    fun saveProfile(name: String, email: String) {
         viewModelScope.launch {
-            repository.userProfile.collect { profile ->
-                if (profile == null) {
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    repository.insertProfile(
-                        UserProfile(
-                            name = "User",
-                            email = "user@example.com",
-                            joinDate = dateFormat.format(Date())
-                        )
-                    )
-                }
-                return@collect
-            }
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            repository.insertProfile(
+                UserProfile(
+                    name = name.trim(),
+                    email = email.trim(),
+                    joinDate = dateFormat.format(Date())
+                )
+            )
         }
     }
 

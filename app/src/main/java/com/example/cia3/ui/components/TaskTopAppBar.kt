@@ -31,7 +31,7 @@ fun TaskTopAppBar(
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = "Task Manager",
+                text = "FocusBoard",
                 style = MaterialTheme.typography.titleLarge
             )
         },

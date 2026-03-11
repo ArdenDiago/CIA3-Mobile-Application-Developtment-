@@ -4,6 +4,8 @@ package com.example.cia3.navigation
  * Sealed class defining all navigation routes in the app.
  */
 sealed class Screen(val route: String) {
+    object Splash : Screen("splash")
+    object Login : Screen("login")
     object TaskList : Screen("task_list")
     object ManageTasks : Screen("manage_tasks")
     object AddTask : Screen("add_task")
