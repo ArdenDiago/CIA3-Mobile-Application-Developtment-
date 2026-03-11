@@ -7,9 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Title
 import androidx.compose.material3.Button
@@ -29,11 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.cia3.data.model.Task
+import com.example.cia3.ui.components.DateTimePickerField
 import com.example.cia3.viewmodel.TaskViewModel
 
 /**
  * Screen for adding a new task.
- * Contains input fields for title, description, and due date.
+ * Contains input fields for title, description, and due date with calendar picker.
  */
 @Composable
 fun AddTaskScreen(
@@ -44,10 +46,12 @@ fun AddTaskScreen(
     var description by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf("") }
     var titleError by remember { mutableStateOf(false) }
+    var dueDateError by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(24.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -108,30 +112,36 @@ fun AddTaskScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            value = dueDate,
-            onValueChange = { dueDate = it },
-            label = { Text("Due Date") },
-            placeholder = { Text("e.g., 2026-03-15") },
-            leadingIcon = {
-                Icon(Icons.Default.CalendarMonth, contentDescription = "Due Date")
+        // Calendar date & time picker
+        DateTimePickerField(
+            dateTimeValue = dueDate,
+            onDateTimeSelected = { selected ->
+                dueDate = selected
+                dueDateError = false
             },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = MaterialTheme.colorScheme.outline
-            ),
-            singleLine = true
+            label = "Due Date"
         )
+
+        if (dueDateError) {
+            Text(
+                text = "Please select a due date",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
             onClick = {
-                if (title.isBlank()) {
-                    titleError = true
-                } else {
+                val hasError = title.isBlank()
+                titleError = hasError
+                dueDateError = dueDate.isBlank()
+
+                if (!hasError && dueDate.isNotBlank()) {
                     viewModel.insertTask(
                         Task(
                             title = title.trim(),
