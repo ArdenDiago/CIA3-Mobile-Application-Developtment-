@@ -1,6 +1,7 @@
 package com.example.cia3.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,11 +20,13 @@ import com.example.cia3.viewmodel.TaskViewModel
 @Composable
 fun TaskNavGraph(
     navController: NavHostController,
-    taskViewModel: TaskViewModel
+    taskViewModel: TaskViewModel,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.TaskList.route
+        startDestination = Screen.TaskList.route,
+        modifier = modifier
     ) {
         composable(Screen.TaskList.route) {
             TaskListScreen(
