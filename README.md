@@ -10,6 +10,15 @@ A **Personal Task Manager & Habit Tracker** Android application built with **Kot
 - **Delete Tasks** – Remove individual tasks or clear all at once
 - **Persistent Storage** – All data stored locally using Room Database
 
+
+## 📸 App Screenshots
+
+<div align="center">
+  <img src="docs/screenshots/task_list.png" width="250" alt="Task List Screen"/>
+  <img src="docs/screenshots/add_task.png" width="250" alt="Add Task Screen"/>
+  <img src="docs/screenshots/manage_tasks.png" width="250" alt="Manage Tasks Screen"/>
+</div>
+
 ## 🏗️ Architecture (MVVM)
 
 ```
